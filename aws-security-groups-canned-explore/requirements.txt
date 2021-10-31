@@ -1,0 +1,4 @@
+dnspython
+deepmerge
+boto3
+PrettyTable

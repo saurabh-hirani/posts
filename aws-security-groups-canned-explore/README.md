@@ -62,14 +62,12 @@ Install the following:
   - public-aws - AWS public IPs.
   - public-0.0.0.0 - open the world.
 
-  Remember that time when you added a security group rule for port 22 for your ISP's public IP but forgot to delete it? This catches that.
-
 - Security groups associated with port 22.
 
   ```
   q -H -d ',' -O "select Region as region, VpcId as vpc, GroupId as id, GroupName as name, GroupAssociationsCount as grpcount,
                     RuleSource as src, RuleFromPort as from_port, RuleToPort as to_port, RuleIpRangeStatus as status
-                    from /tmp/output.csv where RuleSourceType == 'ip_address' and
+                    from /tmp/output.csv where RuleSourceType == 'ip_address' and GroupAssociationsCount > 0
                     RuleFromPort in (22)" | ROW_TEXTWRAP_LEN=50 TABLE_HAS_HEADER=1 csv2table
   ```
 

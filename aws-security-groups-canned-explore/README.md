@@ -57,9 +57,10 @@ Install the following:
   where `RuleIpRangeStatus in ('public-other')` catches rules from unknown public IPs i.e. IPs which do not fall in these categories:
 
   - public-org - IP Addresses present in [./ip-addrs/org.json](./ip-addrs/org.json)
-  - private-vpc - IP addresses from private and non-default VPCs
-  - private-default_vpc - Same as above but
-  - public-aws - AWS public IPs
+  - private-vpc - IP addresses from private and non-default VPCs.
+  - private-default_vpc - Same as above but.
+  - public-aws - AWS public IPs.
+  - public-0.0.0.0 - open the world.
 
   Remember that time when you added a security group rule for port 22 for your ISP's public IP but forgot to delete it? This catches that.
 
@@ -70,6 +71,15 @@ Install the following:
                     RuleSource as src, RuleFromPort as from_port, RuleToPort as to_port, RuleIpRangeStatus as status
                     from /tmp/output.csv where RuleSourceType == 'ip_address' and
                     RuleFromPort in (22)" | ROW_TEXTWRAP_LEN=50 TABLE_HAS_HEADER=1 csv2table
+  ```
+
+- Security groups associated with port 22 and open to the world.
+
+  ```
+  q -H -d ',' -O "select Region as region, VpcId as vpc, GroupId as id, GroupName as name, GroupAssociationsCount as grpcount,
+                    RuleSource as src, RuleFromPort as from_port, RuleToPort as to_port, RuleIpRangeStatus as status
+                    from /tmp/output.csv where RuleSourceType == 'ip_address' and
+                    RuleFromPort in (22) and RuleIpRangeStatus in ('public-0.0.0.0')" | ROW_TEXTWRAP_LEN=50 TABLE_HAS_HEADER=1 csv2table
   ```
 
 - Security groups associated with ports other than port 80, 443, 22.

@@ -1,4 +1,4 @@
-Reference code for substack post - WIP
+Reference code for the blog post on [AWS security groups: canned answers and exploratory questions](https://last9.io/blog/aws-security-groups-canned-answers-and-exploratory-questions/)
 
 ### Pre-requisites
 
